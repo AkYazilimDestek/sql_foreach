@@ -1,0 +1,26 @@
+DECLARE @i int
+DECLARE @PractitionerId int
+DECLARE @numrows int
+DECLARE @Practitioner TABLE (
+    idx smallint Primary Key IDENTITY(1,1)
+    , PractitionerId int,
+     KisiSayi int
+)
+
+
+INSERT @Practitioner
+SELECT distinct OkumaID , KisiSayi = KisiId1 FROM Okuma
+
+SET @i = 1
+SET @numrows = (SELECT COUNT(*) FROM @Practitioner)
+IF @numrows > 0
+    WHILE (@i <= (SELECT MAX(idx) FROM @Practitioner))
+    BEGIN
+
+        SET @PractitionerId = (SELECT KisiSayi FROM @Practitioner WHERE idx = @i)
+
+        --Do something with Id here
+        PRINT @PractitionerId
+
+        SET @i = @i + 1
+    END
